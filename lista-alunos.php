@@ -1,12 +1,13 @@
 <?php
 
+use Alura\Pdo\Domain\Model\Student;
+use Alura\Pdo\Infrastructure\Persistence\ConnectionCreator;
+use Alura\Pdo\Infrastructure\Repository\PdoStudentRepository;
+
 require_once 'vendor/autoload.php';
 
-$pdo = \Alura\Pdo\Infrastructure\Persistence\ConnectionCreator::createConnection();
-
-$statement = $pdo->query('SELECT * FROM students;');
-$studentList = $statement->fetchAll(PDO::FETCH_ASSOC);
+$pdo = ConnectionCreator::createConnection();
+$repository = new PdoStudentRepository($pdo);
+$studentList = $repository->allStudents();
 
 var_dump($studentList);
-
-echo $studentList[0][1];
